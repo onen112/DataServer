@@ -3,16 +3,16 @@
 <mapper namespace="com.example.dataserver.dao.UserMapper">
 
     <select id="login" parameterType="com.example.dataserver.dao.UserMapper" resultType="com.example.dataserver.pojo.UserInfo">
-        select * from userinfo where username = #{username} and password = #{password}
+        select * from `user` where username = #{username} and password = #{password}
     </select>
 
     <select id="isSigin" resultType="java.lang.Integer">
-        select count(*) from userinfo where username = #{username}
+        select count(*) from `user` where username = #{username}
     </select>
 
     <insert id="sigin" parameterType="com.example.dataserver.pojo.UserInfo">
-        insert into userinfo (username,password) values(
-            #{username},#{password}
+        insert into `user` (username,password,`name`) values(
+            #{username},#{password},#{name}
         )
     </insert>
 </mapper>

@@ -10,16 +10,13 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
-
     public UserInfo login(UserInfo user) {
-       return userMapper.login(user);
+        return userMapper.login(user);
     }
-
     public boolean sigin(UserInfo user) {
-        return false;
+        return userMapper.sigin(user) > 0;
     }
-
     public boolean isSigin(String username) {
-        return false;
+        return userMapper.isSigin(username) > 0;
     }
 }

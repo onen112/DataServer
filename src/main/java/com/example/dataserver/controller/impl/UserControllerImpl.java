@@ -79,6 +79,26 @@ public class UserControllerImpl implements UserController {
         map.put("state",state);
         map.put("msg",msg);
         return map;
+    }
 
+    @RequestMapping("/getUserInfo")
+    public Object getUserInfo(HttpServletRequest req){
+        HttpSession session = req.getSession(false);
+        String msg = "";
+        UserInfo data = null;
+        int state = -1;
+        if(session == null){
+            state = 0;
+            msg = "请先登录！";
+        }else {
+            state = 1;
+            data = (UserInfo) session.getAttribute("user");
+            msg = "查询成功！";
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("state",state);
+        map.put("msg",msg);
+        map.put("data",data);
+        return map;
     }
 }

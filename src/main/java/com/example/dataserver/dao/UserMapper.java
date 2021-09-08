@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     UserInfo login(UserInfo user);
+    int sigin(UserInfo user);
+    int isSigin(String username);
 }
