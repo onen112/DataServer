@@ -12,4 +12,5 @@ public class DataInfo {
     private long size;
     private String updatetime;
     private String contenttype;
+    private String objectUrl;
 }
