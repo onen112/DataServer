@@ -69,7 +69,7 @@ public class UserControllerImpl implements UserController {
             msg = "注册失败，当前用户名已经存在";
         }else{
             user.setPassword(md5.getMD5(password));
-            user.setCreatetime(new Date());
+            user.setName(username);
             if(userService.sigin(user)){
                 state = 1;
                 msg = "注册成功";
