@@ -7,4 +7,5 @@ import javax.xml.crypto.Data;
 public interface DataService {
     int upload(DataInfo data);
 
+    boolean existsData(String md5);
 }

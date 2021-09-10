@@ -15,4 +15,10 @@ public class DataServiceImpl implements DataService {
 
         return dataMapper.upload(data);
     }
+
+    @Override
+    public boolean existsData(String md5) {
+
+        return dataMapper.existsData(md5) > 0;
+    }
 }

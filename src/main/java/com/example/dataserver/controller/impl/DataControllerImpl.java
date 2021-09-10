@@ -6,6 +6,7 @@ import com.example.dataserver.pojo.UserInfo;
 import com.example.dataserver.service.impl.DataServiceImpl;
 import com.example.dataserver.service.impl.UserServiceImpl;
 import com.example.dataserver.util.MD5Util;
+import com.example.dataserver.util.ObsUtil;
 import com.obs.services.ObsClient;
 import com.obs.services.model.PutObjectResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class DataControllerImpl implements DataController {
     MD5Util md5Util;
     @Autowired
     DataServiceImpl dataService;
+    @Autowired
+    ObsUtil obsUtil;
     @Override
     @RequestMapping("/uploadData")
     public Object update(HttpServletRequest req, @RequestParam("upData") MultipartFile upData) throws IOException {
@@ -47,26 +50,28 @@ public class DataControllerImpl implements DataController {
         }else{
             UserInfo user =  (UserInfo) session.getAttribute("user");
             DataInfo data = new DataInfo();
-            ObsClient obs = new ObsClient(ak,sk,endpoint);
-            try {
-                data.setName(upData.getOriginalFilename());
-                data.setUid(user.getId());
-                data.setSize(upData.getSize());
-                data.setContenttype(req.getContentType());
-                InputStream inputStream = upData.getInputStream();
-                String md5 = md5Util.getMD5(inputStream) + data.getName();
-                data.setMd5(md5);
-                inputStream = upData.getInputStream();
-                data.setContenttype(upData.getContentType());
-                PutObjectResult putObjectResult = obs.putObject(bname, md5, inputStream);
-                data.setObjectUrl(putObjectResult.getObjectUrl());
-                dataService.upload(data);
-                state = 0;
-                msg = "文件上传成功";
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                obs.close();
+            InputStream inputStream = upData.getInputStream();
+            String md5 = md5Util.getMD5(inputStream) + data.getName();
+            if(dataService.existsData(md5)){
+                msg = "该文件已经存在，请勿重复上传";
+                state = -1;
+            }else{
+                try {
+                    data.setName(upData.getOriginalFilename());
+                    data.setUid(user.getId());
+                    data.setSize(upData.getSize());
+                    data.setContenttype(req.getContentType());
+                    data.setMd5(md5);
+                    inputStream = upData.getInputStream();
+                    data.setContenttype(upData.getContentType());
+                    PutObjectResult putObjectResult = obsUtil.putObject(md5, inputStream);
+                    data.setObjectUrl(putObjectResult.getObjectUrl());
+                    dataService.upload(data);
+                    state = 0;
+                    msg = "文件上传成功";
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         Map<String,Object> map = new HashMap<>();
