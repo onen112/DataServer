@@ -19,4 +19,13 @@ public class UserServiceImpl implements UserService {
     public boolean isSigin(String username) {
         return userMapper.isSigin(username) > 0;
     }
+    @Override
+    public boolean changeName(int id, String name) {
+        return userMapper.changeName(id,name) > 0;
+    }
+
+    @Override
+    public UserInfo getUserInfo(int id) {
+       return userMapper.getUserInfo(id);
+    }
 }

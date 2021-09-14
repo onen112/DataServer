@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 @Component
 public class ObsUtil {
-    private static final String ak = "UYJHINAZVSTIJIBPEYPW";
-    private static final String sk = "hCA7VJ3HlbAJkqspx8vHBX06xm7pvKgaiGXbU6Uj";
-    private static final String edndpoint = "s.cn-east-2.myhuaweicloud.com";
-    private static ObsClient obsClient;
+    public static final String ak = "UYJHINAZVSTIJIBPEYPW";
+    public static final String sk = "hCA7VJ3HlbAJkqspx8vHBX06xm7pvKgaiGXbU6Uj";
+    public static final String endpoint = "obs.cn-east-2.myhuaweicloud.com";
+    public static final String bname = "mydatatest";
     public PutObjectResult putObject(String name,InputStream inputStream){
-        ObsClient obs = new ObsClient(ak,sk,edndpoint);
-        PutObjectResult putObjectResult = obsClient.putObject("icloud-disk-1", name, inputStream);
+        ObsClient obs = new ObsClient(ak,sk,endpoint);
+        PutObjectResult putObjectResult = obs.putObject(bname, name, inputStream);
         try {
             obs.close();
         } catch (IOException e) {

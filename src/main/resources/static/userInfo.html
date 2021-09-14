@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">软通云</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="/index.html">我的文件</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索文件...">
+                </div>
+                <input type="button" class="btn btn-default" value="搜索">
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi~ &nbsp;{{userInfo.name}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">个人信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+
+<div class="col-lg-3"></div>
+<div class="col-lg-6">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><span style="font-weight: 700;font-size: 16px">个人信息</span></div>
+        <div class="panel-body">
+            <form class="form-inline">
+                <p style="font-weight: 700;">昵称：</p>
+                <div class="form-group" style="width: 100%">
+                    <input style="width: 40%;"  type="text" class="form-control" v-on:focus="on_focus()" v-on:blur="dis_focus()" v-model="username">
+                    <input type="button" v-on:mousedown="changeName()" style="margin-left: 40px" class="btn btn-primary" v-show="isFocus" value="确定">
+                    <input type="button" v-on:mousedown="dis_focus()"  style="margin-left: 15px" class="btn btn-danger" v-if="isFocus" value="取消">
+                </div>
+                <br><br>
+                <p style="font-weight: 700;">用户名：</p>
+                <div class="form-group" style="width: 100%">
+                    <input type="email"  style="width: 40%;" disabled="disabled" class="form-control" :value="userInfo.username" >
+                </div>
+                <br><br>
+                <p style="font-weight: 700;">注册时间：</p>
+                    <span>{{userInfo.createtime}}</span>
+                <br><br>
+            </form>
+            <p><span style="font-weight: 700;">资源使用： </span><span>30mb/500mb</span></p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                    <span class="sr-only">45% Complete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="./js/userInfo.js"></script>
+</body>
+</html>

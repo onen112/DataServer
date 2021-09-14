@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">软通云</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a  href="#">我的文件</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" v-model="docName" class="form-control" placeholder="搜索文件...">
+                </div>
+                <input type="button" v-on:click="init()" class="btn btn-default" value="搜索">
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi~ &nbsp;{{user.name}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/userInfo.html">个人信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" v-on:click="logOut()">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+<div class="col-lg-1"></div>
+<div class="col-lg-10" style="margin: 60px auto">
+    <form method="POST" style="margin-bottom: 30px;float: left" enctype="multipart/form-data" action="/data/uploadData" target="form">
+        <div class="form-group">
+            <label for="exampleInputFile">上传文件：</label>
+            <input type="file" id="exampleInputFile" name="upData">
+        </div>
+        <input type="submit"  class="btn btn-default" value="上传"/>
+    </form>
+    <iframe id="form" v-on:load="sub()" name="form" style="display:none;"></iframe>
+    <div class="col-lg-2" style="float: right">
+        <label >排序方式：</label>
+        <select v-on:change="changeSort()" class="form-control">
+            <option>最近上传</option>
+            <option>最早上传</option>
+        </select>
+    </div>
+
+    <table class="table table-hover" >
+        <tr>
+            <th style="text-align: center">序号</th>
+            <th style="text-align: center">文件名</th>
+            <th style="text-align: center">文件大小</th>
+            <th style="text-align: center">上传时间</th>
+            <th style="text-align: center">操作</th>
+        </tr>
+        <tr v-for="(item, index) in items" style="text-align: center">
+            <td style="line-height: 2.428571" class="active">{{index+1}}</td>
+            <td style="line-height: 2.428571" class="success">{{item.name}}</td>
+            <td style="line-height: 2.428571" class="warning">{{item.size / 1024}}kb</td>
+            <td style="line-height: 2.428571" class="danger">{{item.updatetime}}</td>
+            <td class="info">
+                <button type="button" class="btn btn-primary" v-on:click="download(item.objectUrl)"><a style="text-decoration: none;color: #fff" class="disabled" :href="item.objectUrl" :download="item.name">下载</a></button>
+                <button type="button" class="btn btn-info">分享</button>
+                <button type="button" class="btn btn-danger" v-on:click="deleteData(item.id,item.md5)">删除</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</div></div>
+<script src="./js/index.js"></script>
+</body>
+</html>

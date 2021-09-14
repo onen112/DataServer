@@ -11,5 +11,5 @@ public class UserInfo {
     private String name;
     private int state;
     private String password;
-    private Date createtime;
+    private String createtime;
 }

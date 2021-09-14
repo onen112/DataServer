@@ -7,4 +7,7 @@ public interface UserService {
     boolean sigin(UserInfo user);
 
     boolean isSigin(String username);
+
+    boolean changeName(int id, String name);
+    UserInfo getUserInfo(int id);
 }
