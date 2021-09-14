@@ -130,6 +130,7 @@ public class UserController {
         }else{
             msg = "退出成功！";
             state = 1;
+            session.removeAttribute("user");
         }
         Map<String,Object> map = new HashMap<>();
         map.put("msg",msg);
