@@ -1,18 +1,24 @@
 var vue = new Vue({
     el:"#app",
     data:{
+        datas:[],
         items:[],
         user:{},
         docName:"",
-        sortBy:true
+        sortBy:true,
+        index:0,
+        maxPage:0,
+        nums:5
     },
     methods:{
         init:function () {
             var that = this;
             axios.get('/data/getDataList?docName=' + this.docName)
                 .then(function (resp){
-                    that.items = resp.data.data.dataList;
+                    that.datas = resp.data.data.dataList;
                     that.user = resp.data.data.userInfo;
+                    that.maxPage = that.datas.length;
+                    this.changeSort();
                 }).catch(function (error) {
                     console.log(error);
                 });
